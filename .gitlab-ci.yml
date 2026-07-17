@@ -1,0 +1,73 @@
+image: golang:1.25
+
+stages:
+  - validate
+  - test
+  - build
+  - docker
+  - deploy
+
+variables:
+  DOCKER_IMAGE: "$CI_REGISTRY_IMAGE/service:$CI_COMMIT_SHA"
+
+before_script:
+  - echo "Pipeline started..."
+
+validate-variables:
+  stage: validate
+  script:
+    - echo "Validating required variables..."
+    - test -n "$CI_REGISTRY_USER" || (echo "CI_REGISTRY_USER missing" && exit 1)
+    - test -n "$CI_REGISTRY_PASSWORD" || (echo "CI_REGISTRY_PASSWORD missing" && exit 1)
+    - test -n "$CI_REGISTRY" || (echo "CI_REGISTRY missing" && exit 1)
+    - echo "Variables OK."
+
+format:
+  stage: test
+  script:
+    - cd app
+    - echo "Checking gofmt..."
+    - FILES=$(gofmt -l $(go list -f '{{.Dir}}' ./...))
+    - if [ -n "$FILES" ]; then echo "Unformatted files:"; echo "$FILES"; exit 1; fi
+    - echo "Running go vet..."
+    - go vet ./...
+    - echo "Running go test..."
+    - go test -race ./...
+
+lint:
+  stage: test
+  image: golangci/golangci-lint:latest
+  script:
+    - cd app
+    - golangci-lint run ./...
+
+security_scan:
+  stage: test
+  image: golang:1.25
+  script:
+    - cd app
+    - go install github.com/securego/gosec/v2/cmd/gosec@latest
+    - $(go env GOPATH)/bin/gosec ./...
+
+docker-build:
+  stage: docker
+  image: docker:24
+  services:
+    - docker:24-dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - docker build -t "$DOCKER_IMAGE" -f Dockerfile app
+    - docker push "$DOCKER_IMAGE"
+
+terraform-deploy:
+  stage: deploy
+  image: hashicorp/terraform:1.9
+  script:
+    - cd deploy/terraform
+    - terraform init
+    - terraform validate
+    - terraform plan -out=tfplan
+    - terraform apply -auto-approve tfplan
+  when: manual
+  needs:
+    - docker-build

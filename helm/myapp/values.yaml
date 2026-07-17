@@ -3,13 +3,13 @@ replicaCount: 1
 image:
   repository: registry.gitlab.com/mateoliverkovacs/demoapp/service
   pullPolicy: IfNotPresent
-  tag: 1db6ceafe82796cc5db2c16114762a8f6bf84001
+  tag: ""   
 
 service:
   port: 8000
-  nodePort: 30080
+  nodePort: null
 
-environment: dev
+environment: ""
 
 ingress:
   enabled: true

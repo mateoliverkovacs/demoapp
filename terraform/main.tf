@@ -24,12 +24,13 @@ resource "helm_release" "homework" {
         value = var.environment
     }
     set {
-      name  = "service.type"
-      value = "NodePort"
+        name  = "service.type"
+        value = var.service_type
     }
 
     set {
-      name  = "service.nodePort"
-      value = 30080
+        name  = "service.nodePort"
+        value = tostring(var.node_port)
     }
+
 }

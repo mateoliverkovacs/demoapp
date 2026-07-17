@@ -163,9 +163,15 @@ Update the project README with following information.
 
 ##### What You Changed
 
+Terraform: I started to use variables in main.tf, created outputs.tf for helm_release_name and for the namespace. Added required providers and added extra variables.
+
+Helm: Started to use Templated labels and added nodeport. Fixed the mismatched labels
+
+CI: Added validation, test, build, deploy stages for my go application to validate variables, running format and security scan, building app with docker and push it to registry.
+
 ##### Assumptions
 
-Describe the assumptions made while completing the assignment.
+The application written in go. Containerized, deployable with helm and managed by terraform. Using ci pipeline to build the application.
 
 ##### Known Limitations
 

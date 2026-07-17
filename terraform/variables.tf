@@ -19,3 +19,15 @@ variable "kubeconfig_path" {
   type        = string
   description = "Path to kubeconfig file"
 }
+
+variable "service_type" {
+  type        = string
+  description = "Kubernetes service type"
+  default     = "NodePort"
+}
+
+variable "node_port" {
+  type        = number
+  description = "NodePort value for the service"
+  default     = 30080
+}

@@ -189,11 +189,12 @@ Describe anything you intentionally omitted.
 - CPU and Memory requests and limits for predictable scheduling
 - Liveness and readiness probes for reliable health checking
 
-##### Gitlab CI
-The pipeline performs e.g. Trivy vulnerability scanning, runs in‑cluster smoke tests after deployment, and automatically rolls back to the last stable Helm release on failure. Make a pipeline template so the teams can extend the shared pipeline template.
+###### Gitlab CI
+- The pipeline performs e.g. Trivy vulnerability scanning, runs in‑cluster smoke tests after deployment, and automatically rolls back to the last stable Helm release on failure. 
+- Make a pipeline template so the teams can extend the shared pipeline template.
 
-##### dockerfile
-Using nonroot user
+###### dockerfile
+- Using nonroot user
 
 ### Deliverables
 

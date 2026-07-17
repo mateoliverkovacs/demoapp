@@ -192,6 +192,9 @@ Describe anything you intentionally omitted.
 ##### Gitlab CI
 The pipeline performs e.g. Trivy vulnerability scanning, runs in‑cluster smoke tests after deployment, and automatically rolls back to the last stable Helm release on failure. Make a pipeline template so the teams can extend the shared pipeline template.
 
+##### dockerfile
+Using nonroot user
+
 ### Deliverables
 
 - Source Code of the Go/Python application

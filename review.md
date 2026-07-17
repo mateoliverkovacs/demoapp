@@ -18,13 +18,13 @@ prod is unquoted, so Terraform interprets it as an undefined identifier.
 Fix: Add image.tag value and use variables from variables.tf
 
 ### 3 Mismatched labels
-Helm Chart Had Mismatched labels:
+Helm chart mismatched labels:
 
 - Deployment label: app: myapp
 - Service selector: app: myapps
 - Ingress backend: homeworks
 
-Fix: Use templated labels
+Fix: Use the same labels (or templated labels), this guarantees resources target the same Pods.
 
 ### 4 Required_providers
 The Terraform configuration lacked a proper required_providers block, making provider versioning non‑deterministic.
@@ -34,4 +34,4 @@ Fix: Add required_providers block into providers.tf
 ### 5 CI pipeline
 Finish the ci pipeline, focus on the following areas:
 validation, test, build, push, deploy stages
-Fix: Implement the necessary stages
+Fix: Execute configuration validation and unit tests prior to the build step so errors are detected early in the pipeline, preventing wasted builds and faster feedback for developers.

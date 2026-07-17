@@ -63,7 +63,6 @@ terraform-deploy:
   stage: deploy
   image: hashicorp/terraform:1.9
   script:
-    - cd deploy/terraform
     - terraform init
     - terraform validate
     - terraform plan -out=tfplan

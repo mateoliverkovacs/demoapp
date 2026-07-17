@@ -190,6 +190,7 @@ Describe anything you intentionally omitted.
 - Liveness and readiness probes for reliable health checking
 
 ###### Gitlab CI
+- Make the build step more secure, dind is not fully secure, using root privileges.
 - The pipeline performs e.g. Trivy vulnerability scanning, runs in‑cluster smoke tests after deployment, and automatically rolls back to the last stable Helm release on failure. 
 - Make a pipeline template so the teams can extend the shared pipeline template.
 
